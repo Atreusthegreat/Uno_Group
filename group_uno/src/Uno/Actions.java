@@ -1,4 +1,4 @@
-package uno;
+package Uno;
 
 /*
  * Uno action card types

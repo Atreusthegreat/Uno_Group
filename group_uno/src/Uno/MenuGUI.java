@@ -1,4 +1,4 @@
-package uno;
+package Uno;
 
 import java.awt.Dimension;
 import java.awt.EventQueue;
@@ -17,7 +17,7 @@ import uno.GameplayGui;
 
 public class MenuGUI extends JFrame {
 
-	private static final int EXIT_ON_CLOSE = (Integer) null;
+	private static final String EXIT_ON_CLOSE = null;
 	private JPanel contentPane;
 	
 	static Game game;
@@ -68,6 +68,7 @@ public class MenuGUI extends JFrame {
 			exit.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					System.exit(0);
+					
 				}
 			});
 			panel.add(exit);
@@ -75,6 +76,13 @@ public class MenuGUI extends JFrame {
 	}
 	
 	
+
+	private void setDefaultCloseOperation(String exitOnClose) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
 
 	public void centerTheWindow(GameplayGui gameplayGui) {
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();

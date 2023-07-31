@@ -1,4 +1,4 @@
-package uno;
+package Uno;
 
 public enum PlayerNames {
 	MAO,

@@ -1,4 +1,4 @@
-package uno;
+package Uno;
 
 import java.awt.EventQueue;
 

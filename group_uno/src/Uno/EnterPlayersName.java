@@ -62,7 +62,9 @@ public class EnterPlayersName extends JFrame {
 		            JOptionPane.showMessageDialog(EnterPlayersName.this, "Please enter a name.", "Error", JOptionPane.ERROR_MESSAGE);
 			
 				}else {
-					
+					if(int i = 0; i < 4; i++) {
+						//must enter 4 names and return it somehow
+					}
 				}
 			}
 		});

@@ -1,4 +1,4 @@
-package uno;
+package Uno;
 
 /*
  * One of two types of Uno card.

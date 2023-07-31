@@ -1,4 +1,4 @@
-package uno;
+package Uno;
 
 import java.io.*;
 import java.util.Scanner;
@@ -23,30 +23,9 @@ public class UnoGameManager implements Serializable {
 	public static void main(String[] args) {
 
 
+		MenuGUI Menu = new MenuGUI();
+		Menu.setVisible(true);
 		
-		
-		while (!choice.equals("y")) {
-			System.out.println("Start a new game? (y or n)");
-			choice = input.next();
-			if (choice.equals("y")) {
-				newGame();
-				
-				saveGame(game);
-				
-				System.out.println("NEW GAME STATE"); //FOR TESTING
-				gameTester(game); //FOR TESTING
-				
-			} else {
-				System.out.println("Load a saved game? (y or n)");
-				choice = input.next();
-				if (choice.equals("y")) {
-					loadGame();
-					
-					System.out.println("LOADED GAME STATE"); //FOR TESTING
-					gameTester(game); //FOR TESTING
-				}
-			}
-		}
 		
 		
 
@@ -96,7 +75,7 @@ public class UnoGameManager implements Serializable {
 
 		
 		
-		input.close();
+
 
 	} // end of main()
 	
@@ -124,7 +103,7 @@ public class UnoGameManager implements Serializable {
 		
 		    
 		    
-		    enterPlayersNameFrame.dispose();
+		    
 		
 		System.out.println("New game started.");
 		
