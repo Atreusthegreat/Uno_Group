@@ -118,17 +118,13 @@ public class UnoGameManager implements Serializable {
 	 * @return game
 	 */
 	public static Game newGame() {
-		game = new Game();
+		Game game = new Game();
+		 EnterPlayersName enterPlayersNameFrame = new EnterPlayersName();
+		    enterPlayersNameFrame.setVisible(true);
 		
-		System.out.print("How many people are playing?  ");
-		int numPlaying = input.nextInt();
-		for (int i = 0; i < numPlaying; i++) {
-			System.out.println("\nEnter player " + (i+1) + "'s name:  ");
-			game.joinPlayer(input.next());
-		}
-		JPanel enterplayers = new JPanel() {
-			
-		}
+		    
+		    
+		    enterPlayersNameFrame.dispose();
 		
 		System.out.println("New game started.");
 		
@@ -182,6 +178,8 @@ public class UnoGameManager implements Serializable {
 			System.out.println("Serialization Error! Can't save data.");
 		}
 	} // end of saveGame()
+	
+	
 	
 
 } // end of GameManager

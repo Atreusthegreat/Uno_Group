@@ -14,7 +14,7 @@ import java.util.ArrayList;
 public class Player implements Serializable {
 	
 	public String playerName = "";
-	public ArrayList<Card> playerHand;
+	public static ArrayList<Card> playerHand;
 
 	
 	/*

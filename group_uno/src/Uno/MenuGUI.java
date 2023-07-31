@@ -17,8 +17,10 @@ import uno.GameplayGui;
 
 public class MenuGUI extends JFrame {
 
-	private static final String EXIT_ON_CLOSE = null;
+	private static final int EXIT_ON_CLOSE = (Integer) null;
 	private JPanel contentPane;
+	
+	static Game game;
 
 	/**
 	 * Launch the application.
@@ -61,15 +63,24 @@ public class MenuGUI extends JFrame {
 		newGame(panel);
 		saveGame(panel);
 		loadGame(panel);
+		{
+			JButton exit = new JButton("Quit Game");
+			exit.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					System.exit(0);
+				}
+			});
+			panel.add(exit);
+		}
 	}
 	
 	
 
-	public void centerTheWindow(Gameplay gameplay) {
+	public void centerTheWindow(GameplayGui gameplayGui) {
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-            int x = (screenSize.width - gameplay.getWidth()) / 2;
-            int y = (screenSize.height - gameplay.getHeight()) / 2;
-            gameplay.setLocation(x, y);
+            int x = (screenSize.width - gameplayGui.getWidth()) / 2;
+            int y = (screenSize.height - gameplayGui.getHeight()) / 2;
+            gameplayGui.setLocation(x, y);
 	}
 
 	public void loadGame(JPanel panel) {
@@ -78,9 +89,8 @@ public class MenuGUI extends JFrame {
 		loadGame.addActionListener((ActionListener) new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Gameplay gameplay = new Gameplay();
-				gameplay.setVisible(true);					
-				dispose(); 
+				UnoGameManager.loadGame();
+				dispose();
 			}
 
 		});
@@ -90,7 +100,7 @@ public class MenuGUI extends JFrame {
 		JButton saveGame = new JButton("Save Game");
 		saveGame.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				newGame();
+				UnoGameManager.saveGame(game);
 			}
 		});
 		panel.add(saveGame);
@@ -100,9 +110,8 @@ public class MenuGUI extends JFrame {
 		JButton newGame = new JButton("New Game");
 		newGame.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(uno.GameplayGui != null) {
-					saveGame(uno.GameplayGUI);
-				}
+				UnoGameManager.newGame();
+				dispose();
 			}
 		});
 		panel.add(newGame);

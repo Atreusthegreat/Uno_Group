@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.EnumSet;
 
+import uno.GameplayGui;
+
 /*
  * A family-friendly game for all ages
  * 
@@ -35,7 +37,6 @@ public class Game implements Serializable {
 	// GAME SETUP METHODS
 	public Game() {
 		unoDeck = new Deck();
-		System.out.println();
 		currentPlayer = players.get(0);
 	} // end of constructor
 	
@@ -69,6 +70,7 @@ public class Game implements Serializable {
 		
 		//starts first player's turn
 		currentPlayer = players.get(cPI);
+		GameplayGui.updatePlayerHand(currentPlayer);
 		
 		//preform turn 
 		while(!checkForWinner()) {
@@ -86,6 +88,7 @@ public class Game implements Serializable {
 	
 	public void playersTurn() {
 		
+		
 	}
 	
 	//GAME PLAY METHODS
@@ -97,43 +100,33 @@ public class Game implements Serializable {
 	        switch (action) {
 	            case SKIP:
 	                skip();
-	                discard();
-	                nextTurn();
+	                
 	                break;
 	            case REVERSE:
 	                reverse();
-	                discard();
-	                nextTurn();
+	                
 	                break;
 	            case DRAWTWO:
 	                Player nextPlayer = players.get((cPI + 1) % players.size());
 	                for (int i = 0; i < 2; i++) {
 	                    nextPlayer.addCard(unoDeck.drawCard());
 	                }
-	                discard();
-	                nextTurn();
+	                
 	                break;
 	            case WILD:
 	            	colorChange();
-	            	nextTurn();
-	            	discard();
-	                // Implement colorChange() logic for "WILD" action.
+	            	
 	                break;
 	            case WILDDRAWFOUR:
-	                // Implement logic for "WILDDRAWFOUR" action (draw four cards, color change).
 	            	colorChange();
 	            	Player nextPlayer1 = players.get((cPI + 1) % players.size());
 	                for (int i = 0; i < 4; i++) {
 	                    nextPlayer1.addCard(unoDeck.drawCard());
 	                }
-	                discard();
-	                nextTurn();
+	                
 	                break;
 	            default:
-	                // The card is a NumberCard, handle it accordingly.
-	                // You can load it into a variable for future use if needed.
-	            	discard();
-	            	nextTurn();
+	          
 	                break;
 	        }
 	    }
@@ -215,7 +208,7 @@ public class Game implements Serializable {
 	}
 	
 	//gets the players hand 
-	public void getHand() {
+	public void getHand(Object object) {
 		currentPlayer.getPlayerHand();
 	}
 	
@@ -310,6 +303,10 @@ public class Game implements Serializable {
 			System.out.println();
 		}
 	} // end of printPlayersHands
+
+	public Object getCurrentPlayer() {
+		return currentPlayer;
+	}
 	
 
 } // end of Game

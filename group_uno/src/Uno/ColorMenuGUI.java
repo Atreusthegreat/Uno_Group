@@ -17,21 +17,6 @@ public class ColorMenuGUI extends JFrame {
 	private JButton yellowbtn;
 	private Colors selectedColor;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					ColorMenuGUI frame = new ColorMenuGUI();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
 	/**
 	 * Create the frame.
