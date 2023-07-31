@@ -35,9 +35,17 @@ public class Game implements Serializable {
 	
 
 	// GAME SETUP METHODS
-	public Game() {
+	public Game(ArrayList<String> names) {
+		
+		  for (String name : names) {
+	            joinPlayer(name);
+	        }
 		unoDeck = new Deck();
 		currentPlayer = players.get(0);
+		GameplayGui gameplayGui = new Uno.GameplayGui();
+		
+		gameplayGui.setVisible(true);
+		
 	} // end of constructor
 	
 	/*
@@ -63,6 +71,12 @@ public class Game implements Serializable {
 
 	
 	
+
+
+
+
+
+	
 	public void StartGame() {
 		cPI = 0;
 		
@@ -87,7 +101,21 @@ public class Game implements Serializable {
 	//Player turn 
 	
 	public void playersTurn() {
+		//get players hand 
 		
+		//get top card in public Card topOfDiscardPile() to show
+		
+		//get player
+		
+		//get players card chose 
+		
+		//have them play card make sure it is playable 
+		
+		//have the card discard to top of discard pile and show top card on discard pile 
+		
+		//have the player turn itrate
+		
+		//move to next player turn 
 		
 	}
 	
@@ -208,8 +236,8 @@ public class Game implements Serializable {
 	}
 	
 	//gets the players hand 
-	public void getHand(Object object) {
-		currentPlayer.getPlayerHand();
+	public ArrayList<Card> getHand(Object object) {
+		return currentPlayer.getPlayerHand();
 	}
 	
 	

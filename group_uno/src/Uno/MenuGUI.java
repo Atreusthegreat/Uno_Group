@@ -118,7 +118,8 @@ public class MenuGUI extends JFrame {
 		JButton newGame = new JButton("New Game");
 		newGame.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				UnoGameManager.newGame();
+				 EnterPlayersName enterPlayersNameFrame = new EnterPlayersName();
+				    enterPlayersNameFrame.setVisible(true);
 				dispose();
 			}
 		});
@@ -129,8 +130,6 @@ public class MenuGUI extends JFrame {
 		JButton returnToGame = new JButton("Return to Game");
 		returnToGame.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Uno.GameplayGui gameplayGui = new Uno.GameplayGui();
-				gameplayGui.setVisible(true);					
 				dispose(); 
 			}
 		});

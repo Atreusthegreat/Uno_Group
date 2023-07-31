@@ -1,6 +1,7 @@
 package Uno;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import javax.swing.JPanel;
@@ -96,19 +97,22 @@ public class UnoGameManager implements Serializable {
 	 * 
 	 * @return game
 	 */
-	public static Game newGame() {
-		Game game = new Game();
-		 EnterPlayersName enterPlayersNameFrame = new EnterPlayersName();
-		    enterPlayersNameFrame.setVisible(true);
+	public static Game newGame(ArrayList<String> names) {
+		Game game = new Game(names);
 		
-		    
-		    
+	        for (String name : names) {
+	            game.joinPlayer(name);
+	        }
+
+	        //System.out.println("New game started.");
+
+	        return game;
+	    
+
 		    
 		
-		System.out.println("New game started.");
-		
-		return game;
-	} // end of newGame()
+		// System.out.println("New game started.");
+	}// end of newGame()
 
 	
 	/*
@@ -127,7 +131,7 @@ public class UnoGameManager implements Serializable {
 			ois.close();
 			fis.close();
 			
-			System.out.println("Game is loaded");
+			//System.out.println("Game is loaded");
 		
 		} catch (Exception e) {
 			e.printStackTrace();

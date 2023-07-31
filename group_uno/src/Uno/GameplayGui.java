@@ -45,14 +45,23 @@ import java.awt.event.ActionEvent;
 		private JButton btnNewButton_10;
 		private JButton btnNewButton_11;
 		private JButton btnNewButton_12;
+		private static ArrayList<Card> playerHand;
+	    private ArrayList<JLabel> playerInfoLabels;
+
+	    private ArrayList<Player> players;
+
 		
-		 public GameplayGui(Game game) {
+		 public GameplayGui(Game game, ArrayList<Player> players) {
+			 
+			 this.game = game;
+			 populateArrayList();
+			 this.players = players;
+			 
 		    }
 		
-		public static void updatePlayerHand(Player currentPlayer) {
-			ArrayList<Card> playerHand = Player.getPlayerHand();
-
-	    }
+		 public void updatePlayerHand(Player currentPlayer) {
+			    playerHand = Player.getPlayerHand();
+			}
 		
 		
 	
@@ -135,7 +144,7 @@ import java.awt.event.ActionEvent;
 				public void actionPerformed(ActionEvent e) {
 					MenuGUI menu = new MenuGUI();
 					 menu.setVisible(true);
-					 dispose(); 
+					 
 				}
 			});
 			panel_1.add(menu);
@@ -224,15 +233,12 @@ import java.awt.event.ActionEvent;
 		}
 		
 		public void setButtonIcon() {
-			String listString = game.getHand(game.getCurrentPlayer()).stream().map(Object::toString).collect(Collectors.joining(","));
-			String[] cardNames = listString.split(",");
-			cardId = new ArrayList<>(Arrays.asList(cardNames));
-			
-			for(int i = 0; i < cardId.size(); i++) {
-				cardButton.get(i).setText(cardNames.toString());
+			 ArrayList<Card> playerHand = game.getHand(game.getCurrentPlayer());
+
+			    for (int i = 0; i < playerHand.size(); i++) {
+			        cardButton.get(i).setText(playerHand.get(i).toString());
+			    }
 			}
-			
-		}
 		
 		public void populateArrayList() {
 			
@@ -251,4 +257,14 @@ import java.awt.event.ActionEvent;
 
 			
 		}
+		
+		
+		 // Method to update player information labels
+	    public void updatePlayerInfoLabels() {
+	        for (int i = 0; i < players.size(); i++) {
+	            Player player = players.get(i);
+	            String playerInfo = player.getPlayerName() + " - Cards: " + player.getPlayerHand().size();
+	            playerInfoLabels.get(i).setText(playerInfo);
+	        }
+	    }
 	}

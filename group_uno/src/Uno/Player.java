@@ -47,7 +47,7 @@ public class Player implements Serializable {
 	 * 
 	 * @return playerHand		 a card array of player's hand
 	 */
-	public ArrayList<Card> getPlayerHand() {
+	public static ArrayList<Card> getPlayerHand() {
 		return playerHand;
 	} // end of getPlayerHand()
 
