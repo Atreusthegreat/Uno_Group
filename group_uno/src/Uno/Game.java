@@ -5,6 +5,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.EnumSet;
+import java.util.Scanner;
 
 import uno.GameplayGui;
 
@@ -31,6 +32,7 @@ public class Game implements Serializable {
 	boolean isGameWon; // if there is a winner or not
 	boolean isUnoHand; // if a hand has one card
 	private ColorMenuGUI colorMenu;
+	private Scanner scanner;
 	
 	
 
@@ -113,12 +115,153 @@ public class Game implements Serializable {
 		
 		//have the card discard to top of discard pile and show top card on discard pile 
 		
-		//have the player turn itrate
+		//have the player turn itrate using nextTurn
+		
+		//check for winner using checkForWinner() and return public boolean isGameWon()
+		
+		//then check for uno if isUnoHand() then have it set setUnoHandTrue()
+		
 		
 		//move to next player turn 
-		
+		currentturn = true;
+	    GameplayGui.updatePlayerHand(currentPlayer); // Update the GUI with the current player's hand
+
+	    // Display the top card on the discard pile in the GUI
+	    Card topCard = unoDeck.topOfDiscardPile();
+	    GameplayGui.updateDiscardPileLabel(topCard);
+
+	    // Check if the current player has only one card and set the UnoHand flag
+	    if (Player.getPlayerHand().size() == 1) {
+	        isUnoHand = true;
+	    } else {
+	        isUnoHand = false;
+	    }
+
+	    // Keep asking for the player's move until the turn is finished
+	    while (currentturn) {
+	        // Ask the player for their move (you need to implement this part)
+	        // You can show a dialog or use console input to get the player's move
+	        // Here, let's assume the player's move is an index of the card they want to play
+	        int move = askForMove();
+
+	        // Check if the move is valid, if not, ask again until a valid move is entered
+	        while (!isValidMove(move, topCard)) {
+	            move = askForMove();
+	        }
+
+	        // Play the card and update the discard pile in the GUI
+	        Card playedCard = currentPlayer.removeCard(move);
+	        unoDeck.discardCard(playedCard);
+	        GameplayGui.updateDiscardPileLabel(playedCard);
+
+	        // Check if the player has won
+	        if (Player.getPlayerHand().isEmpty()) {
+	            isGameWon = true;
+	            currentturn = false; // End the turn
+	            return;
+	        }
+
+	        // Check for special actions on the card played and handle them
+	        handleCardActions(playedCard);
+
+	        // Check if the player has called Uno and set the flag accordingly
+	        if (isUnoHand && Player.getPlayerHand().size() > 1) {
+	            isUnoHand = false;
+	        }
+
+	        // Check if the player has called Uno incorrectly and penalize them
+	        if (!isUnoHand && Player.getPlayerHand().size() == 1) {
+	            drawTwoCards(currentPlayer);
+	            drawTwoCards(currentPlayer);
+	        }
+
+	        // If the player played a Skip or Reverse card, end the turn
+	        if (playedCard instanceof ActionCard) {
+	            Actions action = ((ActionCard) playedCard).getAction();
+	            if (action == Actions.SKIP || action == Actions.REVERSE) {
+	                currentturn = false;
+	            }
+	        }
+
+	        // If the player played a Draw Two card, make the next player draw two cards
+	        if (playedCard instanceof ActionCard && ((ActionCard) playedCard).getAction() == Actions.DRAWTWO) {
+	            Player nextPlayer = players.get((cPI + 1) % players.size());
+	            drawTwoCards(nextPlayer);
+	            drawTwoCards(nextPlayer);
+	        }
+	    }
 	}
 	
+	private int askForMove() {
+		 scanner = new Scanner(System.in);
+		    System.out.print("Enter the index of the card you want to play: ");
+		    int move = scanner.nextInt();
+		    return move;
+	}
+
+	private boolean isValidMove(int move, Card topCard) {
+		 // Check if the move is within the bounds of the player's hand
+	    if (move < 0 || move >= Player.getPlayerHand().size()) {
+	        System.out.println("Invalid move. Please enter a valid index.");
+	        return false;
+	    }
+
+	    // Check if the selected card matches the color or number of the top card on the discard pile
+	    Card selectedCard = Player.getPlayerHand().get(move);
+	    if (selectedCard instanceof NumberCard && topCard instanceof NumberCard) {
+	        return ((NumberCard) selectedCard).getColor() == ((NumberCard) topCard).getColor()
+	                || ((NumberCard) selectedCard).getNumber() == ((NumberCard) topCard).getNumber();
+	    } else if (selectedCard instanceof ActionCard && topCard instanceof ActionCard) {
+	        return ((ActionCard) selectedCard).getColor() == ((ActionCard) topCard).getColor()
+	                || ((ActionCard) selectedCard).getAction() == ((ActionCard) topCard).getAction();
+	    } else if (selectedCard instanceof ActionCard && topCard instanceof NumberCard) {
+	        return ((ActionCard) selectedCard).getColor() == ((NumberCard) topCard).getColor();
+	    } else if (selectedCard instanceof NumberCard && topCard instanceof ActionCard) {
+	        return ((NumberCard) selectedCard).getColor() == ((ActionCard) topCard).getColor();
+	    } else {
+	        return false;
+	    }
+	}
+
+	private void handleCardActions(Card playedCard) {
+		if (playedCard instanceof ActionCard) {
+	        Actions action = ((ActionCard) playedCard).getAction();
+	        switch (action) {
+	            case SKIP:
+	                skip();
+	                break;
+	            case REVERSE:
+	                reverse();
+	                break;
+	            case DRAWTWO:
+	                Player nextPlayer = players.get((cPI + 1) % players.size());
+	                drawTwoCards(nextPlayer);
+	                drawTwoCards(nextPlayer);
+	                break;
+	            case WILD:
+	                colorChange();
+	                break;
+	            case WILDDRAWFOUR:
+	                colorChange();
+	                Player nextPlayer1 = players.get((cPI + 1) % players.size());
+	                drawTwoCards(nextPlayer1);
+	                drawTwoCards(nextPlayer1);
+	                drawTwoCards(nextPlayer1);
+	                drawTwoCards(nextPlayer1);
+	                break;
+	            default:
+	                break;
+	        }
+	    }
+		
+	}
+
+	private void drawTwoCards(Player nextPlayer) {
+		  for (int i = 0; i < 2; i++) {
+		        nextPlayer.addCard(unoDeck.drawCard());
+		    }
+	}
+
 	//GAME PLAY METHODS
 	
 	public void checkPlayedCard() {

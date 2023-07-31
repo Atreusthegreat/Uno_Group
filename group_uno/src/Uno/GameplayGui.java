@@ -32,7 +32,9 @@ import java.awt.event.ActionEvent;
 		
 		ArrayList<JButton> cardButton = new ArrayList<JButton>();
 		
-		
+		private JLabel rightPlayerStats;
+		private JLabel topPlayerStats;
+		private JLabel leftPlayerStats;
 		private JButton btnNewButton_1;
 		private JButton btnNewButton_2;
 		private JButton btnNewButton_3;
@@ -56,10 +58,16 @@ import java.awt.event.ActionEvent;
 			 this.game = game;
 			 populateArrayList();
 			 this.players = players;
+			 playerHand = new ArrayList<>();
+			 setButtonIcon();
 			 
+			 for (int i = 0; i < cardButton.size(); i++) {
+			        int index = i; // Create a final variable to access inside the lambda
+			        cardButton.get(i).addActionListener(e -> playCard(index));
+			    }
 		    }
 		
-		 public void updatePlayerHand(Player currentPlayer) {
+		 public static void updatePlayerHand(Player currentPlayer) {
 			    playerHand = Player.getPlayerHand();
 			}
 		
@@ -185,6 +193,7 @@ import java.awt.event.ActionEvent;
 			JButton unoLeft = new JButton("Uno");
 			unoLeft.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					
 				}
 			});
 			panel_5.add(unoLeft);
@@ -258,7 +267,17 @@ import java.awt.event.ActionEvent;
 			
 		}
 		
-		
+		private void playCard(int index) {
+		    if (isValidMove(index, unoDeck.topOfDiscardPile())) {
+		        Card playedCard = playerHand.get(index);
+		        currentPlayer.removeCard(index);
+		        unoDeck.discardCard(playedCard);
+		        handleCardActions(playedCard);
+		        updatePlayerHand(currentPlayer);
+		    } else {
+		        // Display an error message or some feedback for invalid move
+		    }
+		}
 		 // Method to update player information labels
 	    public void updatePlayerInfoLabels() {
 	        for (int i = 0; i < players.size(); i++) {
@@ -267,4 +286,40 @@ import java.awt.event.ActionEvent;
 	            playerInfoLabels.get(i).setText(playerInfo);
 	        }
 	    }
+
+		public static void updateDiscardPileLabel(Card playedCard) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		public JLabel getRightPlayerStats() {
+			int nextPlayerIndex = (cPI + 1) % players.size();
+		    Player nextPlayer = players.get(nextPlayerIndex);
+		    String rightPlayerInfo = nextPlayer.getPlayerName() + " - Cards: " + nextPlayer.getPlayerHand().size();
+		    rightPlayerStats.setText(rightPlayerInfo);
+		    return rightPlayerStats;
+		}
+
+		public void setRightPlayerStats(JLabel rightPlayerStats) {
+			this.rightPlayerStats = rightPlayerStats;
+		}
+
+		public JLabel getTopPlayerStats() {
+			int nextPlayerIndex = (cPI + 2) % players.size();
+		    Player nextPlayer = players.get(nextPlayerIndex);
+		    String rightPlayerInfo = nextPlayer.getPlayerName() + " - Cards: " + nextPlayer.getPlayerHand().size();
+		    rightPlayerStats.setText(rightPlayerInfo);
+		    return rightPlayerStats;		}
+
+		public void setTopPlayerStats(JLabel topPlayerStats) {
+			this.topPlayerStats = topPlayerStats;
+		}
+
+		public JLabel getLeftPlayerStats() {
+			return leftPlayerStats;
+		}
+
+		public void setLeftPlayerStats(JLabel leftPlayerStats) {
+			this.leftPlayerStats = leftPlayerStats;
+		}
 	}
